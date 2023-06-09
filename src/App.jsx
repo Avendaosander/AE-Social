@@ -2,6 +2,7 @@ import { useState } from 'react'
 import logo from './assets/AESocial.jpg'
 import Tweets from './components/Tweets'
 import ModalDelete from './components/ModalDelete'
+import Footer from './components/Footer'
 
 const tweetsArray = [
    {
@@ -42,7 +43,7 @@ function App() {
             </section>
          </main>
          {modalDelete && <ModalDelete handleModalDelete={handleModalDelete}/>}
-         {/* Footer */}
+         <Footer/>
       </>
    )
 }
