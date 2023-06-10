@@ -36,7 +36,7 @@ function App() {
          <img src={logo} alt="Logo AE Social" />
          <main>
             {/* Formulario para Tweets */}
-            <section className='flex flex-col justify-center items-center gap-5 mb-16'>
+            <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                {tweetsArray.map((tweet) => (
                   <Tweets key={tweet.id} handleModalDelete={handleModalDelete} tweet={tweet}/>
                ))}
