@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { BsHeart, BsTrash, BsHeartFill } from 'react-icons/bs'
 
-function Tweets({ handleModalDelete, tweet }) {
+function Tweets({ handleModalDelete, tweet, handleTweets }) {
    const [like, setLike] = useState(false)
 
    const handleLike = () => {
       setLike(!like)
+      handleTweets()
    }
+
 
    return (
       <article className='flex flex-col justify-around min-h-24 w-4/5 sm:w-[30rem] py-2 px-4 rounded-xl ring-1 ring-slate-500 bg-slate-800'>
