@@ -40,7 +40,8 @@ function App() {
       <>
          <Header/>
          <main>
-            <section className='flex flex-col justify-center items-center gap-5 mb-16'>
+            {/* Formulario para Tweets */}
+            <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                <Form/>
                {tweetsArray.map((tweet) => (
                   <Tweets key={tweet.id} handleModalDelete={handleModalDelete} handleTweets={handleTweets} tweet={tweet}/>
