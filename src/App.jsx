@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import logo from './assets/AESocial.jpg'
 import Tweets from './components/Tweets'
 import ModalDelete from './components/ModalDelete'
 import Footer from './components/Footer'
+import Header from './components/Header'
+import Form from './components/Form'
 
 const tweetsArray = [
    {
@@ -39,18 +40,22 @@ function App() {
       tweetID && setTweetDelete(tweetID)
       setModalDelete(!modalDelete)
    }
+   //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
+   const handleTweets=()=>{
+      const tui=localStorage.getItem("Tweet")
+      console.log(tui)
+   }
 
    return (
       <>
-         {/* Header */}
-         <img src={logo} alt="Logo AE Social" />
+         <Header/>
          <main>
-            {/* Formulario para Tweets */}
+            <Form/>
             <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                {tweets.length > 0 
                   ? (
                      tweets.map((tweet) => (
-                        <Tweets key={tweet.id} handleModalDelete={handleModalDelete} tweet={tweet} setTweets={setTweets}/>
+                        <Tweets key={tweet.id} handleModalDelete={handleModalDelete} handleTweets={handleTweets} tweet={tweet} setTweets={setTweets}/>
                      ))
                   ) : (
                      <h2 className='text-slate-300 text-lg'>No hay Tweets disponibles</h2>

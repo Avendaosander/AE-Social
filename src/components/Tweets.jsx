@@ -3,7 +3,7 @@ import { BsHeart, BsTrash, BsHeartFill, BsBookmarkHeart, BsBookmarkHeartFill } f
 import { toggleLikeLS } from '../logic/toggleLikeLS'
 import { toggleFavLS } from '../logic/toggleFavLS'
 
-function Tweets({ handleModalDelete, tweet, setTweets }) {
+function Tweets({ handleModalDelete, tweet, setTweets,  handleTweets }) {
    const [like, setLike] = useState(tweet.like || false)
    const [fav, setFav] = useState(tweet.fav || false)
 
@@ -18,6 +18,7 @@ function Tweets({ handleModalDelete, tweet, setTweets }) {
       const newListOfTweets = toggleFavLS(tweetID, !fav)
       setTweets(newListOfTweets)
    }
+   handleTweets()
 
    return (
       <article className='relative flex flex-col justify-around min-h-24 w-4/5 sm:w-[30rem] py-2 px-4 rounded-xl ring-1 ring-slate-500 bg-slate-800'>
