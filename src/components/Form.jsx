@@ -1,11 +1,11 @@
 import React from "react"
-
+import { generarID } from "../logic/createID"
 
 class Form extends React.Component{
     constructor(props){
         super(props)
-
-        this.state={user:"", tweet:""}
+        console.log(props)
+        this.state={id:"",user:"", tweet:""}
     }
     handleChange2=(e)=>{
         this.setState({user:e.target.value})
@@ -16,8 +16,14 @@ class Form extends React.Component{
         console.log(e.target.value)
     }
     handleSubmit=()=>{
-        console.log(this.state)
-        localStorage.setItem('Tweet', JSON.stringify(this.state));
+        if (this.state.id==="") {
+            console.log(this.state)
+            const id=generarID()
+            this.setState({id:id})   
+        }else{
+            this.props.handleTweets()
+            localStorage.setItem('Tweet', JSON.stringify(this.state));
+        }
     }
     render(){
 

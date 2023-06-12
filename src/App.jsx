@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Tweets from './components/Tweets'
 import ModalDelete from './components/ModalDelete'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Form from './components/Form'
+import Sin from './components/SinTwe'
 
 const tweetsArray = [
    {
@@ -24,16 +25,20 @@ const tweetsArray = [
 ]
 
 function App() {
-   // const [tweets, setTweets] = useState(tweetsArray)
+   const [tweets, setTweets] = useState(tweetsArray)
    const [modalDelete, setModalDelete] = useState(false)
 
    const handleModalDelete = () => {
       setModalDelete(!modalDelete)
    }
    //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
+   useEffect(()=>{
+      handleTweets()
+  },[tweetsArray])
    const handleTweets=()=>{
-      const tui=localStorage.getItem("Tweet")
-      console.log(tui)
+      const tui=JSON.parse(localStorage.getItem("Tweet"))
+      tweetsArray.push(tui)
+      console.log(tweetsArray)
    }
 
    return (
@@ -41,12 +46,18 @@ function App() {
          <Header/>
          <main>
             {/* Formulario para Tweets */}
-            <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
-               <Form/>
-               {tweetsArray.map((tweet) => (
-                  <Tweets key={tweet.id} handleModalDelete={handleModalDelete} handleTweets={handleTweets} tweet={tweet}/>
-               ))}
-            </section>
+            <div>
+               <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
+                  <Form handleTweets={handleTweets}/>
+                  {tweetsArray.map((tweet) => (
+                     <Tweets handleModalDelete={handleModalDelete} tweet={tweet}/>
+                  ))}
+                  <h1>HOLA</h1>
+               </section>
+            </div>
+            <div>
+               <Sin/>
+            </div>
          </main>
          {modalDelete && <ModalDelete handleModalDelete={handleModalDelete}/>}
          <Footer/>
