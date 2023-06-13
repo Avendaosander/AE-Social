@@ -6,26 +6,10 @@ import Header from './components/Header'
 import Form from './components/Form'
 import Sin from './components/SinTwe'
 
-const tweetsArray = [
-   {
-      id: '7643756347865',
-      user: 'Avendaosander',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam no.'
-   },
-   {
-      id: '843278573432847',
-      user: 'FrontII',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus en nisl neque. Proin in turpis vel enim interdum bibendum. Etiam.'
-   },
-   {
-      id: '463624576235',
-      user: 'Alejo2608',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin fermentum risus, ut posuere turpis congue at. Duis maximus nisi et lectus hendrerit, euismod ultrices turpis aliquet. Aenean eu feugiat.'
-   }
-]
 
 function App() {
-   const [tweets, setTweets] = useState(tweetsArray)
+   const tweetspai=[]
+   const [tweets, setTweets] = useState([])
    const [modalDelete, setModalDelete] = useState(false)
 
    const handleModalDelete = () => {
@@ -34,13 +18,13 @@ function App() {
    //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
    useEffect(()=>{
       handleTweets()
-  },[tweetsArray])
-   const handleTweets=()=>{
-      const tui=JSON.parse(localStorage.getItem("Tweet"))
-      tweetsArray.push(tui)
-      console.log(tweetsArray)
+  },[])
+  const handleTweets=()=>{
+   const tui=JSON.parse(localStorage.getItem("Tweet"))
+   setTweets(tui)
+   tweetspai.push(tui)
+   console.log(tweetspai)
    }
-
    return (
       <>
          <Header/>
@@ -49,9 +33,7 @@ function App() {
             <div>
                <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                   <Form handleTweets={handleTweets}/>
-                  {tweetsArray.map((tweet) => (
-                     <Tweets handleModalDelete={handleModalDelete} tweet={tweet}/>
-                  ))}
+                  <Tweets handleModalDelete={handleModalDelete} tweetspai={tweetspai}/>
                   <h1>HOLA</h1>
                </section>
             </div>
