@@ -11,8 +11,12 @@ function App() {
    const tweetspai=[]
    const [tweets, setTweets] = useState([])
    const [modalDelete, setModalDelete] = useState(false)
+   const [tweetDelete, setTweetDelete] = useState('')
+   
+   // localStorage.setItem('Tweet', JSON.stringify(tweets))
 
-   const handleModalDelete = () => {
+   const handleModalDelete = (tweetID = null) => {
+      tweetID && setTweetDelete(tweetID)
       setModalDelete(!modalDelete)
    }
    //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
@@ -33,15 +37,20 @@ function App() {
             <div>
                <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                   <Form handleTweets={handleTweets}/>
-                  <Tweets handleModalDelete={handleModalDelete} tweetspai={tweetspai}/>
-                  <h1>HOLA</h1>
+                  {tweets.length > 0 
+                  ? (
+                     tweets.map((tweet) => (
+                        <Tweets key={tweet.id} handleModalDelete={handleModalDelete} tweet={tweet} setTweets={setTweets}/>
+                     ))
+                  ) : (
+                     <h2 className='text-slate-300 text-lg'>No hay Tweets disponibles</h2>)}
                </section>
             </div>
             <div>
                <Sin/>
             </div>
          </main>
-         {modalDelete && <ModalDelete handleModalDelete={handleModalDelete}/>}
+         {modalDelete && <ModalDelete handleModalDelete={handleModalDelete} tweetID={tweetDelete} setTweets={setTweets}/>}
          <Footer/>
       </>
    )

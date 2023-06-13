@@ -20,6 +20,10 @@ class Form extends React.Component{
             console.log(this.state)
             const id=generarID()
             this.setState({id:id})   
+        }else if (this.state.user==="") {
+            alert("Ingresa tu usuario por favor")
+        }else if (this.state.tweet==="") {
+            alert("Ingresa el tweet por favor")
         }else{
             this.props.handleTweets()
             localStorage.setItem('Tweet', JSON.stringify(this.state));
@@ -28,26 +32,28 @@ class Form extends React.Component{
     render(){
 
         return(
-            <div className="bg-slate-800">
+            <div>
                 <div className="min-h-24 w-[30rem] py-2 px-4 rounded-xl">
                     <input 
                     type="text" 
                     onChange={this.handleChange2}
-                    className="ser"
+                    className="rounded-full h-8 mt-2 bg-slate-900 text-color-white border-none outline-none"
                     value={this.state.user}
-                    placeholder="Usuario"
+                    placeholder=" Usuario"
                     />
+                    <hr className="flex-auto w-28"/>
                 </div>
-                <div className="grid grid-cols-3 min-h-24 w-[30rem] py-2 px-4 rounded-xl">
+                <div className="flex min-h-24 w-[30rem] py-2 px-4 rounded-xl">
                 <input 
                     type="text" 
                     onChange={this.handleChange}
-                    className="col-span-2"
+                    className="flex-auto w-64 rounded-l-full h-10 mb-2 bg-slate-600 outline-none"
                     value={this.state.tweet}
-                    placeholder="Tweet"
+                    placeholder=" Escribe un Tweet"
                     />
-                    <button onClick={()=>this.handleSubmit()} className="bg-white">Crear</button>
+                    <button onClick={()=>this.handleSubmit()} className="bg-slate-600 rounded-r-full mb-2">Crear</button>
                 </div>
+                {this.error && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center text-center'>{this.error}</div>}
             </div>
         )
     }
