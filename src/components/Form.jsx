@@ -37,7 +37,7 @@ class Form extends React.Component{
                     <input 
                     type="text" 
                     onChange={this.handleChange2}
-                    className="rounded-full h-8 mt-2 bg-slate-900 text-color-white border-none outline-none"
+                    className="rounded-full h-8 mt-2 bg-slate-900 text-color-white border-none outline-none text-blue-100"
                     value={this.state.user}
                     placeholder=" Usuario"
                     />
@@ -47,11 +47,11 @@ class Form extends React.Component{
                 <input 
                     type="text" 
                     onChange={this.handleChange}
-                    className="flex-auto w-64 rounded-l-full h-10 mb-2 bg-slate-600 outline-none"
+                    className="flex-auto w-64 rounded-l-full h-10 mb-2 bg-slate-600 outline-none text-blue-100"
                     value={this.state.tweet}
                     placeholder=" Escribe un Tweet"
                     />
-                    <button onClick={()=>this.handleSubmit()} className="bg-slate-600 rounded-r-full mb-2">Crear</button>
+                    <button onClick={()=>this.handleSubmit()} className="bg-slate-600 rounded-r-full text-blue-100 mb-2">Crear</button>
                 </div>
                 {this.error && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center text-center'>{this.error}</div>}
             </div>
