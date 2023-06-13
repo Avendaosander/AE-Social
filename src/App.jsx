@@ -5,7 +5,13 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Form from './components/Form'
 import Sin from './components/SinTwe'
-
+const tweet=[
+   {
+      id:"wdajmodnwoqnwoq",
+      user:"Alejo",
+      tweet:"Esta es una prueba"
+   }
+]
 
 function App() {
    const tweetspai=[]
@@ -37,9 +43,9 @@ function App() {
             <div>
                <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
                   <Form handleTweets={handleTweets}/>
-                  {tweets.length > 0 
+                  {tweet.length>0 
                   ? (
-                     tweets.map((tweet) => (
+                     tweet.map((tweet) => (
                         <Tweets key={tweet.id} handleModalDelete={handleModalDelete} tweet={tweet} setTweets={setTweets}/>
                      ))
                   ) : (
