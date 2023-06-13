@@ -1,54 +1,62 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Tweets from './components/Tweets'
 import ModalDelete from './components/ModalDelete'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Form from './components/Form'
-
-const tweetsArray = [
+import Sin from './components/SinTwe'
+const tweet=[
    {
-      id: '7643756347865',
-      user: 'Avendaosander',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam no.'
-   },
-   {
-      id: '843278573432847',
-      user: 'FrontII',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus en nisl neque. Proin in turpis vel enim interdum bibendum. Etiam.'
-   },
-   {
-      id: '463624576235',
-      user: 'Alejo2608',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin fermentum risus, ut posuere turpis congue at. Duis maximus nisi et lectus hendrerit, euismod ultrices turpis aliquet. Aenean eu feugiat.'
+      id:"wdajmodnwoqnwoq",
+      user:"Alejo",
+      tweet:"Esta es una prueba"
    }
 ]
 
 function App() {
-   // const [tweets, setTweets] = useState(tweetsArray)
+   const tweetspai=[]
+   const [tweets, setTweets] = useState([])
    const [modalDelete, setModalDelete] = useState(false)
+   const [tweetDelete, setTweetDelete] = useState('')
+   
+   // localStorage.setItem('Tweet', JSON.stringify(tweets))
 
-   const handleModalDelete = () => {
+   const handleModalDelete = (tweetID = null) => {
+      tweetID && setTweetDelete(tweetID)
       setModalDelete(!modalDelete)
    }
    //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
-   const handleTweets=()=>{
-      const tui=localStorage.getItem("Tweet")
-      console.log(tui)
+   useEffect(()=>{
+      handleTweets()
+  },[])
+  const handleTweets=()=>{
+   const tui=JSON.parse(localStorage.getItem("Tweet"))
+   setTweets(tui)
+   tweetspai.push(tui)
+   console.log(tweetspai)
    }
-
    return (
       <>
          <Header/>
          <main>
             {/* Formulario para Tweets */}
-            <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
-               <Form/>
-               {tweetsArray.map((tweet) => (
-                  <Tweets key={tweet.id} handleModalDelete={handleModalDelete} handleTweets={handleTweets} tweet={tweet}/>
-               ))}
-            </section>
+            <div>
+               <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
+                  <Form handleTweets={handleTweets}/>
+                  {tweet.length>0 
+                  ? (
+                     tweet.map((tweet) => (
+                        <Tweets key={tweet.id} handleModalDelete={handleModalDelete} tweet={tweet} setTweets={setTweets}/>
+                     ))
+                  ) : (
+                     <h2 className='text-slate-300 text-lg'>No hay Tweets disponibles</h2>)}
+               </section>
+            </div>
+            <div>
+               <Sin/>
+            </div>
          </main>
-         {modalDelete && <ModalDelete handleModalDelete={handleModalDelete}/>}
+         {modalDelete && <ModalDelete handleModalDelete={handleModalDelete} tweetID={tweetDelete} setTweets={setTweets}/>}
          <Footer/>
       </>
    )
