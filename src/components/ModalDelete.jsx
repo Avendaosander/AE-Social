@@ -1,10 +1,17 @@
-import { deleteTweetLS } from "../logic/deleteLS"
+import { useMutation } from "@apollo/client"
+import { DELETE_TWEET } from "../graphql/tweets"
 
-function ModalDelete({ handleModalDelete, tweetID, setTweets}) {
+function ModalDelete({ handleModalDelete, tweetID}) {
+   const [deleteTweet] = useMutation(DELETE_TWEET, {
+      refetchQueries: ['getTweets']
+   })
+
    const handleDelete = () => {
-      const tweetsNews = deleteTweetLS(tweetID)
-      // console.log('Borrado '+ tweetID)
-      setTweets(tweetsNews)
+      deleteTweet({
+         variables: {
+            id: tweetID
+         }
+      })
       handleModalDelete()
    }
 
