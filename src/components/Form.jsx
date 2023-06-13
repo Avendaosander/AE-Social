@@ -1,57 +1,71 @@
 import { useState } from "react"
-import { generarID } from "../logic/createID"
+import { CREATE_TWEET, GET_TWEETS } from "../graphql/tweets"
+import { useMutation } from "@apollo/client"
 
-export default function Form(props){
-    const [error,setError]=useState("")
+export default function Form(){
+    const [errorInput,setErrorInput]=useState("")
     const [state,setState]=useState({
-        id:"",
         username:"",
         message:""
     })
 
+    const [createTweet, {loading, error}] = useMutation(CREATE_TWEET, {
+        refetchQueries: [
+            {
+                query: GET_TWEETS
+            },
+            "getTweets"
+        ]
+    })
+
     const handleChange=({currentTarget:input})=>{
         setState({...state,[input.name]:input.value})
-        console.log(state) 
     }
-    const handleSubmit=()=>{
-        const id=generarID()
-        setState({id:id})  
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
         if (state.username==="") {
-            setError("Ingresa tu usuario por favor")
+            setErrorInput("Ingresa tu usuario por favor")
         }else if (state.message==="") {
-            setError("Ingresa el mensaje por favor")
+            setErrorInput("Ingresa el mensaje por favor")
         }else {
-            props.handleTweets()
-            localStorage.setItem('message', JSON.stringify(state));
+            createTweet({
+                variables: {
+                    username: state.username,
+                    message: state.message
+                }
+            })
+            setState({username: state.username, message: ""})
         }
     }
-        return(
-            <div>
-                <form onSubmit={handleSubmit}>
-                <div className="min-h-24 w-[30rem] py-2 px-4 rounded-xl">
-                    <input 
-                    type="text" 
-                    name="username"
-                    onChange={handleChange}
-                    className="rounded-full h-8 mt-2 bg-slate-900 text-color-white border-none outline-none text-blue-100"
-                    value={state.username}
-                    placeholder=" Usuario"
-                    />
-                    <hr className="flex-auto w-28"/>
-                </div>
-                <div className="flex min-h-24 w-[30rem] py-2 px-4 rounded-xl">
+
+    return(
+        <div>
+            <form onSubmit={e => handleSubmit(e)}>
+            <div className="min-h-24 w-[30rem] py-2 px-4 rounded-xl">
                 <input 
-                    type="text" 
-                    name="message"
-                    onChange={handleChange}
-                    className="flex-auto w-64 rounded-l-full h-10 mb-2 bg-slate-600 outline-none text-blue-100"
-                    value={state.message}
-                    placeholder=" Escribe un message"
-                    />
-                    <button type="submit" className="bg-slate-600 rounded-r-full text-blue-100 mb-2">Crear</button>
-                </div>
-                {error && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center text-center'>{error}</div>}
-                </form>
+                type="text" 
+                name="username"
+                onChange={handleChange}
+                className="rounded-full h-8 mt-2 bg-slate-900 text-color-white border-none outline-none text-blue-100"
+                value={state.username}
+                placeholder="Usuario"
+                />
+                <hr className="flex-auto w-28"/>
             </div>
-        )
-    }
+            <div className="flex min-h-24 w-[30rem] py-2 px-4 rounded-xl">
+            <input 
+                type="text" 
+                name="message"
+                onChange={handleChange}
+                className="flex-auto w-64 rounded-l-full h-10 mb-2 bg-slate-600 outline-none text-blue-100"
+                value={state.message}
+                placeholder=" Escribe un message"
+                />
+                <button disabled={loading} type="submit" className="bg-slate-600 rounded-r-full text-blue-100 mb-2">Crear</button>
+            </div>
+            {errorInput && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center'>{errorInput}</div>}
+            </form>
+        </div>
+    )
+}
