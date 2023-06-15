@@ -1,15 +1,20 @@
 import { useState } from 'react'
 import { BsHeart, BsTrash, BsHeartFill, BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs'
-import { UPDATE_TWEET } from '../graphql/tweets'
+import { FAV_TWEET, UPDATE_TWEET } from '../graphql/tweets'
 import { useMutation } from '@apollo/client'
 
 
 function Tweets({ handleModalDelete, tweet }) {
    const [like, setLike] = useState(tweet.like || false)
    const [fav, setFav] = useState(tweet.fav || false)
+   const tweFav=[]
    const [updateTweet] = useMutation(UPDATE_TWEET, {
       refetchQueries: ['getTweets']
    })
+   const [favTweet] = useMutation(FAV_TWEET, {
+      refetchQueries: ['getTweets']
+   })
+
 
    const handleLike = (tweetID) => {
       setLike(!like)
@@ -23,12 +28,20 @@ function Tweets({ handleModalDelete, tweet }) {
    
    const handleFav = (tweetID) => {
       setFav(!fav)
+      console.log(fav)
       updateTweet({
          variables: {
             id: tweetID,
             fav: !fav
          }
       })
+      if (fav===false) {
+         favTweet({
+            variables: {
+               id: tweetID
+            }
+         })  
+      }
    }
 
    return (
