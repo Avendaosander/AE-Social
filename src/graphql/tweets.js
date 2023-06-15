@@ -56,15 +56,3 @@ export const DELETE_TWEET = gql`
       }
    }
 `
-
-export const FAV_TWEET= gql`
-   mutation($id: ID!) {
-      favTweet (_id: $id){
-         _id,
-         username,
-         message,
-         like,
-         fav
-      }
-   }
-`
