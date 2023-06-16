@@ -4,51 +4,55 @@ import ModalDelete from './components/ModalDelete'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Form from './components/Form'
+import { useQuery } from '@apollo/client'
+import { GET_TWEETS } from './graphql/tweets'
+import { FaSpinner } from "react-icons/fa";
+import Favorites from './components/Favorites'
 
-const tweetsArray = [
-   {
-      id: '7643756347865',
-      user: 'Avendaosander',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam no.'
-   },
-   {
-      id: '843278573432847',
-      user: 'FrontII',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus en nisl neque. Proin in turpis vel enim interdum bibendum. Etiam.'
-   },
-   {
-      id: '463624576235',
-      user: 'Alejo2608',
-      tweet: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin fermentum risus, ut posuere turpis congue at. Duis maximus nisi et lectus hendrerit, euismod ultrices turpis aliquet. Aenean eu feugiat.'
-   }
-]
 
 function App() {
-   // const [tweets, setTweets] = useState(tweetsArray)
    const [modalDelete, setModalDelete] = useState(false)
+   const [tweetDelete, setTweetDelete] = useState('')
+   const [modalFav,setModalFav]=useState(false)
+   
+   const {loading, error, data} = useQuery(GET_TWEETS)
 
-   const handleModalDelete = () => {
+   if (error) return <p className='text-slate-300 text-xl text-center'>{error}</p>
+
+   const handleModalDelete = (tweetID = null) => {
+      tweetID && setTweetDelete(tweetID)
       setModalDelete(!modalDelete)
    }
-   //Esto es solo para comprobar lo que me llegaba al local storage alexander pa que sepas, no es gran funcionalidad, gracias att:EUTIMIO
-   const handleTweets=()=>{
-      const tui=localStorage.getItem("Tweet")
-      console.log(tui)
+   const handleFavModal=()=>{
+      setModalFav(!modalFav)
    }
 
    return (
       <>
-         <Header/>
-         <main>
-            {/* Formulario para Tweets */}
-            <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
-               <Form/>
-               {tweetsArray.map((tweet) => (
-                  <Tweets key={tweet.id} handleModalDelete={handleModalDelete} handleTweets={handleTweets} tweet={tweet}/>
-               ))}
-            </section>
-         </main>
-         {modalDelete && <ModalDelete handleModalDelete={handleModalDelete}/>}
+         <Header handleFavModal={handleFavModal}/>
+         {
+            loading?
+            <div className="flex justify-center text-center p-5">
+               <h1 className='text-center text-slate-300'><FaSpinner className='w-32 h-32 animate-spin'/></h1>
+            </div>:
+            <div className="to">
+               <main>
+                  <section className='flex flex-col justify-center items-center gap-5 mb-40 sm:mb-20 '>
+                     <Form/>
+                     {data.tweets.length > 0 
+                        ? (
+                           data.tweets.map((tweet) => (
+                              <Tweets key={tweet._id} handleModalDelete={handleModalDelete} tweet={tweet}/>
+                           ))
+                        ) : (
+                           <h2 className='text-slate-300 text-lg'>No hay Tweets disponibles</h2>
+                        )}
+                  </section>
+               </main>
+               {modalDelete && <ModalDelete handleModalDelete={handleModalDelete} tweetID={tweetDelete}/>}
+               {modalFav && <Favorites key={data} handleFavModal={handleFavModal}/>}
+            </div>
+         }
          <Footer/>
       </>
    )
