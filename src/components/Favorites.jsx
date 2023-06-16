@@ -5,8 +5,6 @@ import { FaSpinner } from "react-icons/fa";
 
 export default function Favorites({handleFavModal}){
     const {loading, error, data} = useQuery(GET_FAVORITES)
-    const may=data
-    console.log(data)
 
 
     return(

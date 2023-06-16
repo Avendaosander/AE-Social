@@ -52,7 +52,7 @@ export default function Form(){
                 value={state.username}
                 placeholder="Usuario"
                 />
-                <hr className="flex-auto w-28"/>
+                <hr className="flex-auto w-48"/>
             </div>
             <div className="flex min-h-24 py-2 px-4 rounded-xl">
             <input 
