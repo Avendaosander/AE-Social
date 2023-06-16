@@ -50,7 +50,7 @@ function App() {
                   </section>
                </main>
                {modalDelete && <ModalDelete handleModalDelete={handleModalDelete} tweetID={tweetDelete}/>}
-               {modalFav && <Favorites handleFavModal={handleFavModal}/>}
+               {modalFav && <Favorites key={data} handleFavModal={handleFavModal}/>}
             </div>
          }
          <Footer/>
