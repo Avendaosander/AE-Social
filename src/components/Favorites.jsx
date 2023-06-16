@@ -24,7 +24,7 @@ export default function Favorites({handleFavModal}){
                                 <div className="to">
                                 {
                                     data.tweetsFav.map((tw)=>(
-                                        <div className="relative flex flex-col mb-6 justify-around min-h-20 sm:w-[30rem] py-2 px-4 rounded-xl ring-1 ring-slate-500 bg-slate-800">
+                                        <div className="relative flex flex-col mb-6 justify-around min-h-20 sm:w-[30rem] py-2 px-4 rounded-xl ring-1 ring-slate-500 bg-slate-800" key={tw._id}>
                                             <h3 className='text-slate-300'>@{tw.username}</h3>
                                             <p className='text-white text-sm border-slate-500 pb-2 mb-2 mt-2'>
                                                 {tw.message}
